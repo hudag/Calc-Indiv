@@ -9,6 +9,9 @@ class MyTestCase(unittest.TestCase):
         self.assertIsInstance(calculator, Calculator)
 
         #self.assertEqual(True, False)
+    def test_add_method_calculator(self):
+        calculator = Calculator()
+        self.assertEqual(calculator.addition(2,2),4)
 
 if __name__ == '__main__':
     unittest.main()
