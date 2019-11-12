@@ -21,7 +21,8 @@ def square(a):
     return d
 
 def square_root(a):
-    return math.sqrt(a)
+    c=math.sqrt(a)
+    return round(c,8)
 
 class Calculator:
     result=0
