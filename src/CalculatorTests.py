@@ -32,7 +32,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(self.calculator.doubled(3),9)
         self.assertEqual(self.calculator.result,9)
 
-
+    def test_root_method_calculator(self):
+        self.assertEqual(self.calculator.sq_root(9),3)
+        self.assertEqual(self.calculator.result,3)
         
 if __name__ == '__main__':
     unittest.main()
