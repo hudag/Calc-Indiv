@@ -13,7 +13,8 @@ def multiplication(a,b):
     return a*b
 
 def division(a,b):
-    return a/b
+    c=b/a
+    return round(c,9)
 
 def square(a):
     d = a**2
