@@ -15,20 +15,22 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(self.calculator.result, 0)
 
     def test_add_method_calculator(self):
-        #test_data = CsvReader('/src/Addition.csv').data
-
-        self.assertEqual(self.calculator.add(2,2),4)
-        self.assertEqual(self.calculator.result,4)
-
-    def test_sub_method_calculator(self):
-        test_data = CsvReader('/src/Subtraction.csv').data
+        test_data = CsvReader('/src/Addition.csv').data
         for row in test_data:
-            self.assertEqual(self.calculator.subtract(row['Value 1'], row['Value 2']), int(row['Result']))
+            self.assertEqual(self.calculator.add(int(row['Value 1']), int(row['Value 2'])), int(row['Result']))
             self.assertEqual(self.calculator.result, int(row['Result']))
 
+    def test_sub_method_calculator(self):
+        #test_data = CsvReader('/src/Subtraction.csv').data
+        #for row in test_data:
+         #   self.assertEqual(self.calculator.subtract(row['Value 1'], row['Value 2']), int(row['Result']))
+          #  self.assertEqual(self.calculator.result, int(row['Result']))
+        self.assertEqual(self.calculator.subtract(2,2),0)
+        self.assertEqual(self.calculator.result,0)
     def test_mult_method_calculator(self):
-        self.assertEqual(self.calculator.multiply(3,3),9)
-        self.assertEqual(self.calculator.result,9)
+
+       self.assertEqual(self.calculator.multiply(3,3),9)
+       self.assertEqual(self.calculator.result,9)
 
     def test_div_method_calculator(self):
         self.assertEqual(self.calculator.divide(3,3),1)
