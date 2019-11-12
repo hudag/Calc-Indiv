@@ -39,8 +39,10 @@ class MyTestCase(unittest.TestCase):
             self.assertEqual(self.calculator.result, float(row['Result']))
 
     def test_squared_method_calculator(self):
-        self.assertEqual(self.calculator.doubled(3),9)
-        self.assertEqual(self.calculator.result,9)
+        test_data = CsvReader('/src/Square.csv').data
+        for row in test_data:
+            self.assertEqual(self.calculator.doubled(int(row['Value 1'])), int(row['Result']))
+            self.assertEqual(self.calculator.result, int(row['Result']))
 
     def test_root_method_calculator(self):
         self.assertEqual(self.calculator.sq_root(9),3)
