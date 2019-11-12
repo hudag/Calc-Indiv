@@ -3,8 +3,11 @@ import math
 def addition(a,b):
     return a+b
 
-def subtraction(a,b):
-    return a-b
+def subtraction(a, b):
+    a = int(a)
+    b = int(b)
+    c = b - a
+    return c
 
 def multiplication(a,b):
     return a*b
