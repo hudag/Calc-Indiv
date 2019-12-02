@@ -4,26 +4,63 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy_declarative import Address, Base, Person
 
 engine = create_engine('sqlite:///sqlalchemy_example.db')
-# Bind the engine to the metadata of the Base class so that the
-# declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
-# A DBSession() instance establishes all conversations with the database
-# and represents a "staging zone" for all the objects loaded into the
-# database session object. Any change made against the objects in the
-# session won't be persisted into the database until you call
-# session.commit(). If you're not happy about the changes, you can
-# revert all of them back to the last commit by calling
-# session.rollback()
+
 session = DBSession()
 
-# Insert a Person in the person table
-new_person = Person(name='new person')
-session.add(new_person)
+
+c1 = Customer(first_name = 'Toby',
+              last_name = 'Miller',
+              username = 'tmiller',
+              email = 'tmiller@example.com',
+              address = '1662 Kinney Street',
+              town = 'Wolfden'
+             )
+
+c2 = Customer(first_name = 'Scott',
+              last_name = 'Harvey',
+              username = 'scottharvey',
+              email = 'scottharvey@example.com',
+              address = '424 Patterson Street',
+              town = 'Beckinsdale'
+             )
+c3 = Customer(
+    first_name="John",
+    last_name="Lara",
+    username="johnlara",
+    email="johnlara@mail.com",
+    address="3073 Derek Drive",
+    town="Norfolk"
+)
+
+c4 = Customer(
+    first_name="Sarah",
+    last_name="Tomlin",
+    username="sarahtomlin",
+    email="sarahtomlin@mail.com",
+    address="3572 Poplar Avenue",
+    town="Norfolk"
+)
+
+c5 = Customer(first_name='Toby',
+              last_name='Miller',
+              username='tmiller',
+              email='tmiller@example.com',
+              address='1662 Kinney Street',
+              town='Wolfden'
+              )
+
+c6 = Customer(first_name='Scott',
+              last_name='Harvey',
+              username='scottharvey',
+              email='scottharvey@example.com',
+              address='424 Patterson Street',
+              town='Beckinsdale'
+              )
+session.add_all([c1, c2, c3, c4, c5, c6])
 session.commit()
 
-# Insert an Address in the address table
-new_address = Address(post_code='00000', person=new_person)
-session.add(new_address)
-session.commit()
+
+
