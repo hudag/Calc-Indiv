@@ -1,5 +1,6 @@
 import sqlite3
 from sqlalchemy import func
+from sqlalchemy import cast, Date, distinct, union
 conn = sqlite3.connect('example.db')
 
 c = conn.cursor()
@@ -62,6 +63,14 @@ session.query(
     func.count("*").label('town_count'),
     Customer.town
 ).group_by(Customer.town).having(func.count("*") > 2).all()
+
+session.query(
+    cast(func.pi(), Integer),
+    cast(func.pi(), Numeric(10,2)),
+    cast("2010-12-01", DateTime),
+    cast("2010-12-01", Date),
+).all()
+
 
 c.execute('SELECT * FROM person')
 print
