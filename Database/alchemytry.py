@@ -301,3 +301,13 @@ all_customer = session.query(
 ).group_by(Customer.town).having(func.count("*") > 2).all()
 for customer in all_customer:
     pprint(customer)
+
+all_customer = session.query(Customer.town).filter(Customer.id  < 10).distinct().all()
+for customer in all_customer:
+    pprint(customer)
+all_customer = session.query(
+    func.count(distinct(Customer.town)),
+    func.count(Customer.town)
+).all()
+for customer in all_customer:
+    pprint(customer)
