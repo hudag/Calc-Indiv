@@ -311,3 +311,10 @@ all_customer = session.query(
 ).all()
 for customer in all_customer:
     pprint(customer)
+
+all_customer = session.query(
+    cast(math.pi, Integer),
+    cast(math.pi, Numeric(10,2)),
+).all()
+for customer in all_customer:
+    pprint(customer)
