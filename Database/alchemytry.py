@@ -324,3 +324,16 @@ s2 = session.query(Item.id, Item.name).filter(Item.name.like("%e%"))
 all_item = s1.union(s2).all()
 for item in all_item:
     pprint(item)
+
+i = session.query(Item).get(8)
+i.selling_price = 25.91
+session.add(i)
+session.commit()
+
+all_item = session.query(Item).filter(
+    Item.name.ilike("W%")
+).update({"quantity": 60}, synchronize_session='fetch')
+session.commit()
+all_item = session.query(Item).all()
+for item in all_item:
+    pprint(item.__dict__)
