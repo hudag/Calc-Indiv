@@ -318,3 +318,9 @@ all_customer = session.query(
 ).all()
 for customer in all_customer:
     pprint(customer)
+
+s1 = session.query(Item.id, Item.name).filter(Item.name.like("Wa%"))
+s2 = session.query(Item.id, Item.name).filter(Item.name.like("%e%"))
+all_item = s1.union(s2).all()
+for item in all_item:
+    pprint(item)
