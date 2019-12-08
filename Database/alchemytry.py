@@ -222,3 +222,82 @@ c.execute('SELECT * FROM address')
 print
 c.fetchall()
 conn.close()
+
+all_customer = session.query(Customer).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
+
+all_item = session.query(Item).all()
+for item in all_item:
+    pprint(item.__dict__)
+
+print("\nPrint Count of both tables")
+all_customers = session.query(Customer).count()
+pprint(all_customers)
+all_items = session.query(Item).count()
+pprint(all_items)
+
+print("\nPrint first rows")
+all_customer = session.query(Customer).first()
+all_items = session.query(Item).first()
+pprint(all_customer.__dict__)
+pprint(all_items.__dict__)
+
+print("\nPrint using sql and or not in notin between like limit offset orderby")
+all_customer = session.query(Customer).filter(or_(
+    Customer.town == 'Peterbrugh',
+    Customer.town == 'Norfolk'
+)).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
+
+all_customer = session.query(Customer).filter(and_(
+    Customer.first_name == 'John',
+    Customer.town == 'Norfolk'
+)).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
+
+all_customer = session.query(Customer).filter(and_(
+    Customer.first_name == 'John',
+    not_(
+        Customer.town == 'Peterbrugh',
+    )
+)).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
+
+all_customer = session.query(Customer).filter(Customer.first_name.in_(['Toby', 'Sarah'])).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
+
+all_customer = session.query(Customer).filter(Customer.first_name.notin_(['Toby', 'Sarah'])).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
+
+all_item = session.query(Item).filter(Item.cost_price.between(10, 50)).all()
+for item in all_item:
+    pprint(item.__dict__)
+
+all_item = session.query(Item).filter(Item.name.like("%r")).all()
+for item in all_item:
+    pprint(item.__dict__)
+
+all_customer = session.query(Customer).limit(2).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
+
+all_customer = session.query(Customer).limit(2).offset(2).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
+
+all_item = session.query(Item).filter(Item.name.ilike("wa%")).order_by(desc(Item.cost_price)).all()
+for item in all_item:
+    pprint(item.__dict__)
+
+all_customer = session.query(
+    func.count("*").label('town_count'),
+    Customer.town
+).group_by(Customer.town).having(func.count("*") > 2).all()
+for customer in all_customer:
+    pprint(customer)
