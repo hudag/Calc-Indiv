@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Float
+from sqlalchemy import Column, ForeignKey, Integer, String, Float, or_, and_, not_,desc,func,cast, Date, distinct, union,Numeric,DateTime,text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -116,34 +116,6 @@ i8 = Item(name='Water Bottle', cost_price=20.89, selling_price=25, quantity=50)
 session.add_all([i1, i2, i3, i4, i5, i6, i7, i8])
 session.commit()
 
-o1 = Order(customer=c1)
-o2 = Order(customer=c1)
-
-line_item1 = OrderLine(order=o1, item=i1, quantity=3)
-line_item2 = OrderLine(order=o1, item=i2, quantity=2)
-line_item3 = OrderLine(order=o2, item=i1, quantity=1)
-line_item3 = OrderLine(order=o2, item=i2, quantity=4)
-
-session.add_all([o1, o2])
-
-session.new
-session.commit()
-
-o3 = Order(customer=c1)
-orderline1 = OrderLine(item=i1, quantity=5)
-orderline2 = OrderLine(item=i2, quantity=10)
-
-o3.order_lines.append(orderline1)
-o3.order_lines.append(orderline2)
-
-session.add_all([o3])
-
-session.commit()
-
-conn = sqlite3.connect('example.db')
-
-c = conn.cursor()
-
 session.query(Customer).all()
 print(session.query(Customer))
 
@@ -156,15 +128,12 @@ session.query(Customer.id, Customer.first_name).all()
 
 session.query(Customer).count()
 session.query(Item).count()
-session.query(Order).count()
 
 session.query(Customer).first()
 session.query(Item).first()
-session.query(Order).first()
 
 session.query(Customer).get(1)
 session.query(Item).get(1)
-session.query(Order).get(100)
 
 print(session.query(Customer).filter(Customer.first_name == 'John'))
 
@@ -193,11 +162,6 @@ session.query(Customer).filter(and_(
     )
 )).all()
 
-session.query(func.count(Customer.id)).join(Order).filter(
-    Customer.first_name == 'John',
-    Customer.last_name == 'Green',
-).group_by(Customer.id).scalar()
-
 session.query(
     func.count("*").label('town_count'),
     Customer.town
@@ -214,14 +178,6 @@ s1 = session.query(Item.id, Item.name).filter(Item.name.like("Wa%"))
 s2 = session.query(Item.id, Item.name).filter(Item.name.like("%e%"))
 s1.union(s2).all()
 s1.union_all(s2).all()
-
-c.execute('SELECT * FROM person')
-print
-c.fetchall()
-c.execute('SELECT * FROM address')
-print
-c.fetchall()
-conn.close()
 
 all_customer = session.query(Customer).all()
 for customer in all_customer:
@@ -350,3 +306,15 @@ session.commit()
 all_item = session.query(Item).all()
 for item in all_item:
     pprint(item.__dict__)
+
+all_customer = session.query(Customer).filter(text("first_name = 'John'")).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
+
+all_customer = session.query(Customer).filter(text("town like 'Nor%'")).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
+
+all_customer = session.query(Customer).filter(text("town like 'Nor%'")).order_by(text("first_name, id desc")).all()
+for customer in all_customer:
+    pprint(customer.__dict__)
